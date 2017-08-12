@@ -3,26 +3,11 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var fs = require('fs');
 var axios = require('axios');
-var async = require('async');
 var ocr = require('./ocrHelper');
 
-// var items = require('../database-mysql');
-// var items = require('../database-mongo');
-
 var app = express();
-
 app.use(bodyParser.json()) // get req.body from client
 app.use(express.static(__dirname + '/../react-client/dist'));
-
-// app.get('/items', function (req, res) {
-//   items.selectAll(function(err, data) {
-//     if(err) {
-//       res.sendStatus(500);
-//     } else {
-//       res.json(data);
-//     }
-//   });
-// });
 
 app.post('/', function(req, res) {
   var path = req.body.path;
@@ -46,7 +31,7 @@ app.post('/', function(req, res) {
       url: googleUrl,
       data: {
         "requests": [
-          {
+          { 
             "image": {
               "content": encoded
             },
@@ -67,7 +52,6 @@ app.post('/', function(req, res) {
 
         // send response after all receipts parsed
         if (infoArray.length == images.length-1) {
-          console.log(infoArray)
           res.send(infoArray);
         }
       }) 

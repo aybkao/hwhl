@@ -6,7 +6,7 @@ import {
   Label 
 } from 'semantic-ui-react';
 
-const TableView = (props) => (
+const TableViewS = (props) => (
   <Table celled>
     <Table.Header>
       <Table.Row>
@@ -14,7 +14,6 @@ const TableView = (props) => (
         <Table.HeaderCell>Date</Table.HeaderCell>
       </Table.Row>
     </Table.Header>
-
     <Table.Body>    
       { props.items.map(item => 
         <Table.Row>
@@ -23,7 +22,6 @@ const TableView = (props) => (
         </Table.Row>)
       }
     </Table.Body>
-
     <Table.Footer>
       <Table.Row>
         <Table.HeaderCell colSpan='3'>
@@ -33,8 +31,6 @@ const TableView = (props) => (
             </Menu.Item>
             <Menu.Item as='a'>1</Menu.Item>
             <Menu.Item as='a'>2</Menu.Item>
-            <Menu.Item as='a'>3</Menu.Item>
-            <Menu.Item as='a'>4</Menu.Item>
             <Menu.Item as='a' icon>
               <Icon name='right chevron' />
             </Menu.Item>
@@ -45,4 +41,4 @@ const TableView = (props) => (
   </Table>
 )
 
-export default TableView;
+export default TableViewS;

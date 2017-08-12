@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import axios from 'axios';
 import Promise from 'bluebird';
 import List from './components/List.jsx';
-import TableView from './components/TableView.jsx';
+import InfoTable from './components/InfoTable.jsx';
 import seed from './seedData.js';
 import { Input, Button } from 'semantic-ui-react'
 
@@ -25,7 +24,6 @@ class App extends React.Component {
   }
 
   handleClick() {
-    console.log("clicked")
     let that = this;
     axios.post('/', {
         path: that.state.path
@@ -50,7 +48,7 @@ class App extends React.Component {
           <Input icon='search' value={this.state.path} onChange={this.handlePath} placeholder='Receipt Photos Folder Path'/>
           <Button onClick={this.handleClick} content='Read!' />
         </div>
-        <TableView items={this.state.items}/>
+        <InfoTable items={this.state.items} />
         <List items={this.state.items}/>
       </div>
     )
