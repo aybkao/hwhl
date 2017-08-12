@@ -25,21 +25,22 @@ app.use(express.static(__dirname + '/../react-client/dist'));
 // });
 
 app.post('/', function(req, res) {
-  var path = req.body.path 
-  var alltext = [];
-  var images = fs.readdirSync('/Users/kaoyubo/Desktop/folder')
-  images.forEach(function(item, index) {
-    if (item.indexOf('.jpg') == -1) {
-      return; 
-    } 
+  var path = req.body.path;
+  var infoArray = [];
+  var images = fs.readdirSync(path);
+  
+  for (var i = 0; i < images.length; i++) {
 
-    var filePath = '/Users/kaoyubo/Desktop/folder/' + item;
+    if (images[i].indexOf('.jpg') == -1) {
+      continue;
+    }
+
+    var filePath = path + images[i];
     var imageFile = fs.readFileSync(filePath);
     var encoded = new Buffer(imageFile).toString('base64'); 
     var googleUrl = 'https://vision.googleapis.com/v1/images:annotate?key=' + process.env.GOOGEL_VISION_API_KEY; 
-    console.log("ITEM:", item);
-    console.log(alltext);
-    
+    console.log("ITEM:", images[i]);
+
     axios({
       method: 'post',
       url: googleUrl,
@@ -59,20 +60,24 @@ app.post('/', function(req, res) {
       }
     })
       .then(function(response) {
-        var parsedText = response.data.responses[0].textAnnotations;
-        alltext.push(parsedText[0].description);
-        if (alltext.length == (images.length - 1)) {
-          console.log(alltext);
-          var dateAndSales = ocr.getSignUpInfo(alltext);
-          console.log(dateAndSales);
-          res.send(dateAndSales);
+        var rawData = response.data.responses[0].textAnnotations;
+        var rawText = rawData[0].description;
+        var dateAndSales = ocr.getSignUpInfo(rawText);
+        infoArray.push(dateAndSales);
+
+        // send response after all receipts parsed
+        if (infoArray.length == images.length-1) {
+          console.log(infoArray)
+          res.send(infoArray);
         }
       }) 
       .catch(function(error) {
         throw error; 
         console.log(error);
       })
-  })
+
+  }
+
 })
 
 

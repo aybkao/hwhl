@@ -31,19 +31,20 @@ const textProcessing = (url, content, res, textArray) => {
 }
 
 
-const getSignUpInfo = (arr) => {
-  let info = [];
-  arr.forEach((item) => {
-    let dateIndex = item.indexOf('Date Time'); 
-    let salesIndex = item.indexOf('Sales Associate'); 
-    let date = item.slice(dateIndex, dateIndex + 35);
-    let sales = item.slice(salesIndex, salesIndex + 25); 
-    info.push({
-      date: date, 
-      sales: sales
-    })
-  })
-  return info;
+const getSignUpInfo = (str) => { 
+  const dateIndex = str.indexOf('Date Time'); 
+  const salesIndex = str.indexOf('Sales Associate'); 
+  const dateRaw = str.slice(dateIndex, dateIndex + 35);
+  const dateFormat = /\d\d-\D\D\D-\d\d/;
+  const date = dateRaw.match(dateFormat)[0];
+  let salesRaw = str.slice(salesIndex, salesIndex + 25); 
+  salesRaw = salesRaw.replace('/', '7');    
+  const sales = salesRaw.split(' ')[2]
+  const obj = {
+    date: date, 
+    sales: sales
+  }
+  return obj;
 }
 
 
