@@ -12,7 +12,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      items: seed,
+      items: [],
       path: ''
     }
     this.handlePath = this.handlePath.bind(this);
@@ -49,7 +49,6 @@ class App extends React.Component {
           <Button onClick={this.handleClick} content='Read!' />
         </div>
         <InfoTable items={this.state.items} />
-        <List items={this.state.items}/>
       </div>
     )
   }
